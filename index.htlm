@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Profile Form</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Floating Background Elements -->
+  <div class="bg-shape shape-1"></div>
+  <div class="bg-shape shape-2"></div>
+  <div class="bg-shape shape-3"></div>
+
+  <!-- Form Container -->
+  <main class="card">
+    <div id="form-section">
+      <h1 class="title">Welcome!</h1>
+      <p class="subtitle">Please tell us a little bit about yourself.</p>
+
+      <form id="userForm">
+        <div class="input-group">
+          <input type="text" id="name" required placeholder=" " />
+          <label for="name">Your Name</label>
+          <span class="focus-line"></span>
+        </div>
+
+        <div class="input-group">
+          <input type="number" id="age" min="1" max="120" required placeholder=" " />
+          <label for="age">Your Age</label>
+          <span class="focus-line"></span>
+        </div>
+
+        <button type="submit" id="submitBtn">
+          <span>Submit</span>
+          <div class="btn-glow"></div>
+        </button>
+      </form>
+    </div>
+
+    <!-- Result Card (Hidden by default) -->
+    <div id="result-section" class="hidden">
+      <div class="checkmark-icon">✓</div>
+      <h2>Hello, <span id="displayName"></span>!</h2>
+      <p>You are <span id="displayAge"></span> years old.</p>
+      <button id="resetBtn">Try Again</button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
