@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Surprise!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+      color: #333;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 30px 24px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      transform: translateY(0);
+      animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .badge {
+      display: inline-block;
+      background: #eef2ff;
+      color: #4f46e5;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 15px;
+    }
+
+    .avatar {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #1e1b4b;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #4b5563;
+      margin-bottom: 24px;
+    }
+
+    .interactive-box {
+      background: #f3f4f6;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus {
+      border-color: #6366f1;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    }
+
+    .btn-share {
+      background: #111827;
+      color: white;
+      margin-top: 10px;
+    }
+
+    .result-text {
+      margin-top: 12px;
+      font-weight: 700;
+      color: #4f46e5;
+      min-height: 24px;
+    }
+
+    /* Confetti Particle */
+    .particle {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      pointer-events: none;
+      border-radius: 2px;
+      animation: fall 2s forwards linear;
+      z-index: 999;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="badge">✨ Just For You</div>
+    <div class="avatar" id="emojiIcon">🎁</div>
+    
+    <h1 id="headline">Welcome!</h1>
+    <p id="subtext">Type your name below to unlock a personalized greeting.</p>
+
+    <div class="interactive-box">
+      <input type="text" id="nameInput" placeholder="Enter your name..." />
+      <button class="btn btn-primary" onclick="generateSurprise()">Surprise Me! 🚀</button>
+      <div class="result-text" id="resultMsg"></div>
+    </div>
+
+    <!-- Share Button -->
+    <button class="btn btn-share" onclick="shareWebsite()">
+      📤 Share With Friends
+    </button>
+  </div>
+
+  <script>
+    // Confetti generator
+    function spawnConfetti() {
+      const colors = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.top = '-10px';
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.transform = `scale(${Math.random() * 0.8 + 0.4})`;
+        document.body.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 2000);
+      }
+    }
+
+    // Dynamic greeting
+    function generateSurprise() {
+      const input = document.getElementById('nameInput').value.trim();
+      const msg = document.getElementById('resultMsg');
+      const emoji = document.getElementById('emojiIcon');
+
+      if (!input) {
+        msg.textContent = "Please enter a name first! 😊";
+        return;
+      }
+
+      msg.textContent = `Hey ${input}, you're awesome! Keep shining ⭐`;
+      emoji.textContent = "🥳";
+      spawnConfetti();
+    }
+
+    // Native Mobile Share API
+    function shareWebsite() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Check out this website!',
+          text: 'Look at this neat interactive card!',
+          url: window.location.href
+        }).catch((err) => console.log('Share canceled'));
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    }
+  </script>
+</body>
+</html>
